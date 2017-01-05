@@ -224,6 +224,17 @@ void keyPressed() {
 
 // called when an object is added to the scene
 void addTuioObject(TuioObject tobj) {
+  if (state == State.WAITING_FOR_INPUT) {
+    int i = tobj.getSymbolID();
+    switch (i) {
+    case 1:
+      clips.add(1, m1);
+      break;
+    case 2:
+      clips.add(1, m2);
+      break;
+    }
+  }
   if (verbose) println("add obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle());
 }
 
