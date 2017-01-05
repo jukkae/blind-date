@@ -106,10 +106,11 @@ void setup() {
   clips.add(m2);
 
   act = clips.get(0);
-  act.play();
+  act.jump(0);
 }
 
 void draw() {
+  println(index + ", " + act.time() + ", " + act.duration());
   switch (state) {
   case WAITING_FOR_INPUT:
     renderWaiting();
@@ -189,7 +190,7 @@ void renderWaiting() {
 }
 
 void renderVideo() {
-  if (act.time() >= act.duration()-0.1) { // TODO shitty magic number yeah yeah
+  if (act.time() >= act.duration()-0.1 && act.time() != -1.0E-9) { // TODO shitty magic numbers abound yeah yeah
     if (index < clips.size()-1) {
       act.stop();
       index++;
@@ -200,6 +201,7 @@ void renderVideo() {
       act.stop();
       index = 0;
       act = clips.get(index);
+      act.stop();
       act.jump(0);
       state = State.WAITING_FOR_INPUT;
       return;
@@ -211,6 +213,7 @@ void renderVideo() {
 void keyPressed() {
   if (state == State.WAITING_FOR_INPUT) {
     state = State.PLAYING;
+    act.play();
   }
 }
 
