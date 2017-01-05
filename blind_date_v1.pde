@@ -15,10 +15,17 @@ boolean verbose = false; // print console debug messages
 boolean callback = true; // updates only after callbacks
 
 Clip clip1;
+Clip clip2;
 Clip m1;
 Clip m2;
+
 Clip act;
-boolean looping = false; // expecting user input
+
+State state = State.WAITING_FOR_INPUT;
+
+enum State {
+  PLAYING, WAITING_FOR_INPUT
+}
 
 enum ClipType { 
   CLIP, MEMORY
@@ -42,7 +49,7 @@ class Clip {
   void pause() {
     m.pause();
   }
-  
+
   void stop() {
     m.stop();
   }
@@ -76,6 +83,9 @@ class Clip {
   }
 }
 
+ArrayList<Clip> clips;
+int index = 0;
+
 void setup() {
   size(640, 480);
 
@@ -85,27 +95,29 @@ void setup() {
   tuioClient  = new TuioProcessing(this);
 
   clip1 = new Clip(new Movie(this, "/Users/jukka/Downloads/044573096-senior-chaplain-talking-about-.mp4"), ClipType.CLIP);
+  clip2 = new Clip(new Movie(this, "/Users/jukka/Downloads/044573096-senior-chaplain-talking-about-.mp4"), ClipType.CLIP); // TODO just for testing
   m1 = new Clip(new Movie(this, "/Users/jukka/Downloads/044595314-remains-aircraft-burning-midwa.mp4"), ClipType.MEMORY);
   m2 = new Clip(new Movie(this, "/Users/jukka/Downloads/043324974-view-explosion-near-uss-battle.mp4"), ClipType.MEMORY);
-  act = clip1;
+
+  clips = new ArrayList<Clip>();
+  clips.add(clip1);
+  clips.add(m1);
+  clips.add(clip2);
+  clips.add(m2);
+
+  act = clips.get(0);
   act.play();
 }
 
 void draw() {
-  println(act.duration() + (", ") + act.time());
-  if (act.time() >= act.duration() - 0.2) {
-    if (act.getClipType() == ClipType.CLIP) {
-      act.jump(act.duration()-2); // TODO looping length
-      looping = true;
-      println("looping!");
-    } else if (act.getClipType() == ClipType.MEMORY) {
-      //println("end of mem");
-      //act = clip1; // TODO implement actually getting the next clip
-      act.jump(0);
-      act.play();
-    }
+  switch (state) {
+  case WAITING_FOR_INPUT:
+    renderWaiting();
+    break;
+  case PLAYING:
+    renderVideo();
+    break;
   }
-  image(act.getMovie(), 0, 0);
 
   // START TUIO
   textFont(font, 18*scale_factor);
@@ -168,21 +180,38 @@ void movieEvent(Movie m) {
   m.read();
 }
 
-void switchActive(int i) {
-  if (!looping) return;
-  act.stop();
-  switch (i) {
-  case 1:
-    act = m1;
-    break;
-  case 2:
-    act = m2;
-    break;
-  }
-  act.jump(0);
+void renderWaiting() {
+  background(255);
+  textFont(font, 18);
+  stroke(0);
+  fill(0);
+  text("WAITING FOR INPUT", 100, 100);
+}
 
-  looping = false;
-  act.play();
+void renderVideo() {
+  if (act.time() >= act.duration()-0.1) { // TODO shitty magic number yeah yeah
+    if (index < clips.size()-1) {
+      act.stop();
+      index++;
+      act = clips.get(index);
+      act.jump(0);
+      act.play();
+    } else {
+      act.stop();
+      index = 0;
+      act = clips.get(index);
+      act.jump(0);
+      state = State.WAITING_FOR_INPUT;
+      return;
+    }
+  }
+  image(act.getMovie(), 0, 0);
+}
+
+void keyPressed() {
+  if (state == State.WAITING_FOR_INPUT) {
+    state = State.PLAYING;
+  }
 }
 
 // --------------------------------------------------------------
@@ -192,7 +221,6 @@ void switchActive(int i) {
 
 // called when an object is added to the scene
 void addTuioObject(TuioObject tobj) {
-  switchActive(tobj.getSymbolID());
   if (verbose) println("add obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle());
 }
 
