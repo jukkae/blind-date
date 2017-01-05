@@ -101,9 +101,9 @@ void setup() {
 
   clips = new ArrayList<Clip>();
   clips.add(clip1);
-  clips.add(m1);
-  clips.add(clip2);
-  clips.add(m2);
+//  clips.add(m1);
+//  clips.add(clip2);
+//  clips.add(m2);
 
   act = clips.get(0);
   act.jump(0);
@@ -228,12 +228,15 @@ void addTuioObject(TuioObject tobj) {
     int i = tobj.getSymbolID();
     switch (i) {
     case 1:
-      clips.add(1, m1);
+      //      clips.add(1, m1);
+      clips.add(m1);
       break;
     case 2:
-      clips.add(1, m2);
+      //      clips.add(1, m2);
+      clips.add(m2);
       break;
     }
+    println("added");
   }
   if (verbose) println("add obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle());
 }
