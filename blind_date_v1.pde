@@ -159,6 +159,19 @@ void keyPressed() {
   looping = false;
 }
 
+void switchActive(int i) {
+  if(!looping) return;
+  switch (i) {
+    case 1:
+      act = m1;
+      break;
+    case 2:
+      act = m2;
+      break;
+  }
+  act.play();
+}
+
 // --------------------------------------------------------------
 // these callback methods are called whenever a TUIO event occurs
 // there are three callbacks for add/set/del events for each object/cursor/blob type
@@ -166,6 +179,7 @@ void keyPressed() {
 
 // called when an object is added to the scene
 void addTuioObject(TuioObject tobj) {
+  switchActive(tobj.getSymbolID());
   if (verbose) println("add obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle());
 }
 
