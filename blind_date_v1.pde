@@ -175,7 +175,7 @@ void initMemories() {
   m21 = new Clip(new Movie(this, "mem/y_15.mp4"), ClipType.YELLOW);
   m22 = new Clip(new Movie(this, "mem/y_16.mp4"), ClipType.YELLOW);
   m23 = new Clip(new Movie(this, "mem/y_17.mp4"), ClipType.YELLOW);
-  
+
   m24 = new Clip(new Movie(this, "mem/b jutta Sequence 04.mp4"), ClipType.BLUE);
   m25 = new Clip(new Movie(this, "mem/b jutta Sequence 06.mp4"), ClipType.BLUE);
   m26 = new Clip(new Movie(this, "mem/b jutta Sequence 07.mp4"), ClipType.BLUE);
@@ -414,6 +414,7 @@ void addTuioObject(TuioObject tobj) {
     if (memories.size() < 9) {
       int i = tobj.getSymbolID();
       switch (i) {
+        //YELLOW
       case 1:
         memories.add(m01);
         break;
@@ -440,6 +441,121 @@ void addTuioObject(TuioObject tobj) {
         break;
       case 9:
         memories.add(m09);
+        break;
+      case 10:
+        memories.add(m10);
+        break;
+      case 11:
+        memories.add(m11);
+        break;
+      case 12:
+        memories.add(m12);
+        break;
+      case 13:
+        memories.add(m13);
+        break;
+      case 14:
+        memories.add(m14);
+        break;
+      case 15:
+        memories.add(m15);
+        break;
+      case 16:
+        memories.add(m16);
+        break;
+      case 17:
+        memories.add(m17);
+        break;
+      case 18:
+        memories.add(m18);
+        break;
+      case 19:
+        memories.add(m19);
+        break;
+      case 20:
+        memories.add(m20);
+        break;
+      case 21:
+        memories.add(m21);
+        break;
+      case 22:
+        memories.add(m22);
+        break;
+      case 23:
+        memories.add(m23);
+        break;
+        //BLUE
+        
+      case 51:
+        memories.add(m24);
+        break;
+      case 52:
+        memories.add(m25);
+        break;
+      case 53:
+        memories.add(m26);
+        break;
+      case 54:
+        memories.add(m27);
+        break;
+      case 55:
+        memories.add(m28);
+        break;
+      case 56:
+        memories.add(m29);
+        break;
+      case 57:
+        memories.add(m30);
+        break;
+      case 58:
+        memories.add(m31);
+        break;
+      case 59:
+        memories.add(m32);
+        break;
+      case 60:
+        memories.add(m33);
+        break;
+      case 61:
+        memories.add(m34);
+        break;
+      case 62:
+        memories.add(m35);
+        break;
+      case 63:
+        memories.add(m36);
+        break;
+      case 64:
+        memories.add(m37);
+        break;
+      case 65:
+        memories.add(m38);
+        break;
+      case 66:
+        memories.add(m39);
+        break;
+      case 67:
+        memories.add(m40);
+        break;
+      case 68:
+        memories.add(m41);
+        break;
+      case 69:
+        memories.add(m42);
+        break;
+      case 70:
+        memories.add(m43);
+        break;
+      case 71:
+        memories.add(m44);
+        break;
+      case 72:
+        memories.add(m45);
+        break;
+      case 73:
+        memories.add(m46);
+        break;
+      default:
         break;
       }
       println("added " + i);
