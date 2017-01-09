@@ -15,21 +15,24 @@ boolean verbose = false; // print console debug messages
 boolean callback = true; // updates only after callbacks
 
 Clip mainCut;
-Clip m00, m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11,
-     m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23,
-     m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35,
-     m36, m37, m38, m39, m40, m41, m42, m43, m44, m45, m46, m47;
+
+Clip c01, c02, c03, c04, c05, c06, c07, c08, c09_a, c09_b, c09_c, c10_a, c10_b, c10_c;
+
+Clip m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11, m12, 
+  m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23, m24, 
+  m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35, m36, 
+  m37, m38, m39, m40, m41, m42, m43, m44, m45, m46, m47, m48;
 
 Clip act;
 
 State state = State.WAITING_FOR_INPUT;
 
 enum State {
-  FIRST_PLAY, PLAYING, WAITING_FOR_INPUT
+  FIRST_PLAY, PLAYING, WAITING_FOR_INPUT, READY
 }
 
 enum ClipType { 
-  CLIP, MEMORY
+  CLIP, YELLOW, BLUE
 }
 
 class Clip {
@@ -85,7 +88,12 @@ class Clip {
 }
 
 ArrayList<Clip> clips;
+ArrayList<Clip> ending_a;
+ArrayList<Clip> ending_b;
+ArrayList<Clip> ending_c;
 ArrayList<Clip> memories;
+
+ArrayList<Clip> timeline;
 
 int index = 0;
 
@@ -98,30 +106,80 @@ void setup() {
   tuioClient  = new TuioProcessing(this);
 
   initClips();
-
-  clips = new ArrayList<Clip>();
-  memories = new ArrayList<Clip>();
-  
-  clips.add(mainCut);
+  initMemories();
 }
 
 void initClips() {
   mainCut = new Clip(new Movie(this, "main/kuleshow_story.mp4"), ClipType.CLIP);
-  m1 = new Clip(new Movie(this, "/Users/jukka/Downloads/044595314-remains-aircraft-burning-midwa.mp4"), ClipType.MEMORY);
-  m2 = new Clip(new Movie(this, "/Users/jukka/Downloads/043324974-view-explosion-near-uss-battle.mp4"), ClipType.MEMORY);  
+
+  clips    = new ArrayList<Clip>();
+  ending_a = new ArrayList<Clip>();
+  ending_b = new ArrayList<Clip>();
+  ending_c = new ArrayList<Clip>();
+
+  c01   = new Clip(new Movie(this, "main/01.mp4"), ClipType.CLIP);
+  c02   = new Clip(new Movie(this, "main/02.mp4"), ClipType.CLIP);
+  c03   = new Clip(new Movie(this, "main/03.mp4"), ClipType.CLIP);
+  c04   = new Clip(new Movie(this, "main/04.mp4"), ClipType.CLIP);
+  c05   = new Clip(new Movie(this, "main/05.mp4"), ClipType.CLIP);
+  c06   = new Clip(new Movie(this, "main/06.mp4"), ClipType.CLIP);
+  c07   = new Clip(new Movie(this, "main/07.mp4"), ClipType.CLIP);
+  c08   = new Clip(new Movie(this, "main/08.mp4"), ClipType.CLIP);
+  c09_a = new Clip(new Movie(this, "main/09_a.mp4"), ClipType.CLIP);
+  c09_b = new Clip(new Movie(this, "main/09_b.mp4"), ClipType.CLIP);
+  c09_c = new Clip(new Movie(this, "main/09_c.mp4"), ClipType.CLIP);
+  c10_a = new Clip(new Movie(this, "main/10_a.mp4"), ClipType.CLIP);
+  c10_b = new Clip(new Movie(this, "main/10_b.mp4"), ClipType.CLIP);
+  c10_c = new Clip(new Movie(this, "main/10_c.mp4"), ClipType.CLIP);
+
+  clips.add(c01);
+  clips.add(c02);
+  clips.add(c03);
+  clips.add(c04);
+  clips.add(c05);
+  clips.add(c06);
+  clips.add(c07);
+  clips.add(c08);
+
+  ending_a.add(c09_a);
+  ending_a.add(c10_a);
+  ending_b.add(c09_b);
+  ending_b.add(c10_b);
+  ending_c.add(c09_c);
+  ending_c.add(c10_c);
+}
+
+void initMemories() {
+  memories = new ArrayList<Clip>();
+  // TODO load memory clips
+  m01 = new Clip(new Movie(this, "mem/y jutta Sequence 01.mp4"), ClipType.YELLOW);
+  m02 = new Clip(new Movie(this, "mem/y jutta Sequence 02.mp4"), ClipType.YELLOW);
+  m03 = new Clip(new Movie(this, "mem/y jutta Sequence 03.mp4"), ClipType.YELLOW);
+  m04 = new Clip(new Movie(this, "mem/y jutta Sequence 05.mp4"), ClipType.YELLOW);
+  m05 = new Clip(new Movie(this, "mem/y jutta Sequence 08.mp4"), ClipType.YELLOW);
+  m06 = new Clip(new Movie(this, "mem/y jutta Sequence 12.mp4"), ClipType.YELLOW);
+  m07 = new Clip(new Movie(this, "mem/b jutta Sequence 04.mp4"), ClipType.BLUE);
+  m08 = new Clip(new Movie(this, "mem/b jutta Sequence 06.mp4"), ClipType.BLUE);
+  m09 = new Clip(new Movie(this, "mem/b jutta Sequence 07.mp4"), ClipType.BLUE);
+  m10 = new Clip(new Movie(this, "mem/b jutta Sequence 09.mp4"), ClipType.BLUE);
+  m11 = new Clip(new Movie(this, "mem/b jutta Sequence 10.mp4"), ClipType.BLUE);
+  m12 = new Clip(new Movie(this, "mem/b jutta Sequence 11.mp4"), ClipType.BLUE);
 }
 
 void draw() {
-  println(index + ", " + act.time() + ", " + act.duration());
   switch (state) {
   case WAITING_FOR_INPUT:
     renderWaiting();
     break;
   case PLAYING:
+    println(index + ", " + act.time() + ", " + act.duration());
     renderVideo();
     break;
   case FIRST_PLAY:
     renderFirstVideo();
+    break;
+  case READY:
+    renderReady();
     break;
   }
 
@@ -192,13 +250,25 @@ void renderWaiting() {
   stroke(0);
   fill(0);
   text("WAITING FOR INPUT", 100, 100);
+  if (memories.size() == 9) {
+    buildTimeline();
+    state = State.READY;
+  }
+}
+
+void renderReady() {
+  background(255);
+  textFont(font, 18);
+  stroke(0);
+  fill(0);
+  text("READY, PRESS P TO PLAY", 100, 100);
 }
 
 void renderFirstVideo() {
   if (act.time() >= act.duration()-0.1 && act.time() != -1.0E-9) { // TODO shitty magic numbers abound yeah yeah
     act.stop();
     index = 0;
-    act = clips.get(index);
+    act = mainCut;
     act.stop();
     act.jump(0);
     state = State.WAITING_FOR_INPUT;
@@ -209,18 +279,19 @@ void renderFirstVideo() {
 
 void renderVideo() {
   if (act.time() >= act.duration()-0.1 && act.time() != -1.0E-9) { // TODO shitty magic numbers abound yeah yeah
-    if (index < clips.size()-1) {
+    if (index < timeline.size()-1) {
       act.stop();
       index++;
-      act = clips.get(index);
+      act = timeline.get(index);
       act.jump(0);
       act.play();
     } else {
       act.stop();
       index = 0;
-      act = clips.get(index);
+      act = timeline.get(index);
       act.stop();
       act.jump(0);
+      memories = new ArrayList<Clip>(); // reinitialize memories array
       state = State.WAITING_FOR_INPUT;
       return;
     }
@@ -228,8 +299,27 @@ void renderVideo() {
   image(act.getMovie(), 0, 0);
 }
 
+void buildTimeline() {
+  timeline = new ArrayList<Clip>();
+  //build timeline until ending
+  for (int i = 0; i < clips.size(); i++) {
+    timeline.add(clips.get(i));
+    if (i < clips.size()-1) {
+      timeline.add(memories.get(i));
+    }
+  }
+  //build ending
+  for (int j = 0; j < ending_a.size(); j++) {
+    timeline.add(ending_a.get(j));
+    if (j < ending_a.size()-1) {
+      timeline.add(memories.get(clips.size() + j));
+    }
+  }
+  println("Timeline built!");
+}
+
 void keyPressed() {
-  if (state == State.WAITING_FOR_INPUT) {
+  if (state == State.WAITING_FOR_INPUT || state == State.READY) {
     switch(key) {
     case 'p':
       state = State.PLAYING;
@@ -257,18 +347,39 @@ void keyPressed() {
 // called when an object is added to the scene
 void addTuioObject(TuioObject tobj) {
   if (state == State.WAITING_FOR_INPUT) {
-    int i = tobj.getSymbolID();
-    switch (i) {
-    case 1:
-      //      clips.add(1, m1);
-      clips.add(m1);
-      break;
-    case 2:
-      //      clips.add(1, m2);
-      clips.add(m2);
-      break;
+    if (memories.size() < 9) {
+      int i = tobj.getSymbolID();
+      switch (i) {
+      case 1:
+        memories.add(m01);
+        break;
+      case 2:
+        memories.add(m02);
+        break;
+      case 3:
+        memories.add(m03);
+        break;
+      case 4:
+        memories.add(m04);
+        break;
+      case 5:
+        memories.add(m05);
+        break;
+      case 6:
+        memories.add(m06);
+        break;
+      case 7:
+        memories.add(m07);
+        break;
+      case 8:
+        memories.add(m08);
+        break;
+      case 9:
+        memories.add(m09);
+        break;
+      }
+      println("added " + i);
     }
-    println("added");
   }
   if (verbose) println("add obj "+tobj.getSymbolID()+" ("+tobj.getSessionID()+") "+tobj.getX()+" "+tobj.getY()+" "+tobj.getAngle());
 }
