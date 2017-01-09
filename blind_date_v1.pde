@@ -14,17 +14,18 @@ PFont font;
 boolean verbose = false; // print console debug messages
 boolean callback = true; // updates only after callbacks
 
-Clip clip1;
-Clip clip2;
-Clip m1;
-Clip m2;
+Clip mainCut;
+Clip m00, m01, m02, m03, m04, m05, m06, m07, m08, m09, m10, m11,
+     m12, m13, m14, m15, m16, m17, m18, m19, m20, m21, m22, m23,
+     m24, m25, m26, m27, m28, m29, m30, m31, m32, m33, m34, m35,
+     m36, m37, m38, m39, m40, m41, m42, m43, m44, m45, m46, m47;
 
 Clip act;
 
 State state = State.WAITING_FOR_INPUT;
 
 enum State {
-  PLAYING, WAITING_FOR_INPUT
+  FIRST_PLAY, PLAYING, WAITING_FOR_INPUT
 }
 
 enum ClipType { 
@@ -84,29 +85,30 @@ class Clip {
 }
 
 ArrayList<Clip> clips;
+ArrayList<Clip> memories;
+
 int index = 0;
 
 void setup() {
-  size(640, 480);
+  size(1280, 720);
 
   font = createFont("Arial", 18);
   scale_factor = height/table_size;
 
   tuioClient  = new TuioProcessing(this);
 
-  clip1 = new Clip(new Movie(this, "/Users/jukka/Downloads/044573096-senior-chaplain-talking-about-.mp4"), ClipType.CLIP);
-  clip2 = new Clip(new Movie(this, "/Users/jukka/Downloads/044573096-senior-chaplain-talking-about-.mp4"), ClipType.CLIP); // TODO just for testing
-  m1 = new Clip(new Movie(this, "/Users/jukka/Downloads/044595314-remains-aircraft-burning-midwa.mp4"), ClipType.MEMORY);
-  m2 = new Clip(new Movie(this, "/Users/jukka/Downloads/043324974-view-explosion-near-uss-battle.mp4"), ClipType.MEMORY);
+  initClips();
 
   clips = new ArrayList<Clip>();
-  clips.add(clip1);
-//  clips.add(m1);
-//  clips.add(clip2);
-//  clips.add(m2);
+  memories = new ArrayList<Clip>();
+  
+  clips.add(mainCut);
+}
 
-  act = clips.get(0);
-  act.jump(0);
+void initClips() {
+  mainCut = new Clip(new Movie(this, "main/kuleshow_story.mp4"), ClipType.CLIP);
+  m1 = new Clip(new Movie(this, "/Users/jukka/Downloads/044595314-remains-aircraft-burning-midwa.mp4"), ClipType.MEMORY);
+  m2 = new Clip(new Movie(this, "/Users/jukka/Downloads/043324974-view-explosion-near-uss-battle.mp4"), ClipType.MEMORY);  
 }
 
 void draw() {
@@ -117,6 +119,9 @@ void draw() {
     break;
   case PLAYING:
     renderVideo();
+    break;
+  case FIRST_PLAY:
+    renderFirstVideo();
     break;
   }
 
@@ -189,6 +194,19 @@ void renderWaiting() {
   text("WAITING FOR INPUT", 100, 100);
 }
 
+void renderFirstVideo() {
+  if (act.time() >= act.duration()-0.1 && act.time() != -1.0E-9) { // TODO shitty magic numbers abound yeah yeah
+    act.stop();
+    index = 0;
+    act = clips.get(index);
+    act.stop();
+    act.jump(0);
+    state = State.WAITING_FOR_INPUT;
+    return;
+  }
+  image(act.getMovie(), 0, 0);
+}
+
 void renderVideo() {
   if (act.time() >= act.duration()-0.1 && act.time() != -1.0E-9) { // TODO shitty magic numbers abound yeah yeah
     if (index < clips.size()-1) {
@@ -212,8 +230,22 @@ void renderVideo() {
 
 void keyPressed() {
   if (state == State.WAITING_FOR_INPUT) {
-    state = State.PLAYING;
-    act.play();
+    switch(key) {
+    case 'p':
+      state = State.PLAYING;
+      act = clips.get(0);
+      act.jump(0);
+      act.play();
+      break;
+    case '1':
+      state = State.FIRST_PLAY;
+      act = mainCut;
+      act.jump(0);
+      act.play();
+      break;
+    default:
+      break;
+    }
   }
 }
 
