@@ -151,19 +151,54 @@ void initClips() {
 
 void initMemories() {
   memories = new ArrayList<Clip>();
-  // TODO load memory clips
+  // YELLOW MEMORIES
   m01 = new Clip(new Movie(this, "mem/y jutta Sequence 01.mp4"), ClipType.YELLOW);
   m02 = new Clip(new Movie(this, "mem/y jutta Sequence 02.mp4"), ClipType.YELLOW);
   m03 = new Clip(new Movie(this, "mem/y jutta Sequence 03.mp4"), ClipType.YELLOW);
   m04 = new Clip(new Movie(this, "mem/y jutta Sequence 05.mp4"), ClipType.YELLOW);
   m05 = new Clip(new Movie(this, "mem/y jutta Sequence 08.mp4"), ClipType.YELLOW);
   m06 = new Clip(new Movie(this, "mem/y jutta Sequence 12.mp4"), ClipType.YELLOW);
-  m07 = new Clip(new Movie(this, "mem/b jutta Sequence 04.mp4"), ClipType.BLUE);
-  m08 = new Clip(new Movie(this, "mem/b jutta Sequence 06.mp4"), ClipType.BLUE);
-  m09 = new Clip(new Movie(this, "mem/b jutta Sequence 07.mp4"), ClipType.BLUE);
-  m10 = new Clip(new Movie(this, "mem/b jutta Sequence 09.mp4"), ClipType.BLUE);
-  m11 = new Clip(new Movie(this, "mem/b jutta Sequence 10.mp4"), ClipType.BLUE);
-  m12 = new Clip(new Movie(this, "mem/b jutta Sequence 11.mp4"), ClipType.BLUE);
+  m07 = new Clip(new Movie(this, "mem/y_01.mp4"), ClipType.YELLOW);
+  m08 = new Clip(new Movie(this, "mem/y_02.mp4"), ClipType.YELLOW);
+  m09 = new Clip(new Movie(this, "mem/y_03.mp4"), ClipType.YELLOW);
+  m10 = new Clip(new Movie(this, "mem/y_04.mp4"), ClipType.YELLOW);
+  m11 = new Clip(new Movie(this, "mem/y_05.mp4"), ClipType.YELLOW);
+  m12 = new Clip(new Movie(this, "mem/y_06.mp4"), ClipType.YELLOW);
+  m13 = new Clip(new Movie(this, "mem/y_07.mp4"), ClipType.YELLOW);
+  m14 = new Clip(new Movie(this, "mem/y_08.mp4"), ClipType.YELLOW);
+  m15 = new Clip(new Movie(this, "mem/y_09.mp4"), ClipType.YELLOW);
+  m16 = new Clip(new Movie(this, "mem/y_10.mp4"), ClipType.YELLOW);
+  m17 = new Clip(new Movie(this, "mem/y_11.mp4"), ClipType.YELLOW);
+  m18 = new Clip(new Movie(this, "mem/y_12.mp4"), ClipType.YELLOW);
+  m19 = new Clip(new Movie(this, "mem/y_13.mp4"), ClipType.YELLOW);
+  m20 = new Clip(new Movie(this, "mem/y_14.mp4"), ClipType.YELLOW);
+  m21 = new Clip(new Movie(this, "mem/y_15.mp4"), ClipType.YELLOW);
+  m22 = new Clip(new Movie(this, "mem/y_16.mp4"), ClipType.YELLOW);
+  m23 = new Clip(new Movie(this, "mem/y_17.mp4"), ClipType.YELLOW);
+  
+  m24 = new Clip(new Movie(this, "mem/b jutta Sequence 04.mp4"), ClipType.BLUE);
+  m25 = new Clip(new Movie(this, "mem/b jutta Sequence 06.mp4"), ClipType.BLUE);
+  m26 = new Clip(new Movie(this, "mem/b jutta Sequence 07.mp4"), ClipType.BLUE);
+  m27 = new Clip(new Movie(this, "mem/b jutta Sequence 09.mp4"), ClipType.BLUE);
+  m28 = new Clip(new Movie(this, "mem/b jutta Sequence 10.mp4"), ClipType.BLUE);
+  m29 = new Clip(new Movie(this, "mem/b jutta Sequence 11.mp4"), ClipType.BLUE);
+  m30 = new Clip(new Movie(this, "mem/b_01.mp4"), ClipType.BLUE);
+  m31 = new Clip(new Movie(this, "mem/b_02.mp4"), ClipType.BLUE);
+  m32 = new Clip(new Movie(this, "mem/b_03.mp4"), ClipType.BLUE);
+  m33 = new Clip(new Movie(this, "mem/b_04.mp4"), ClipType.BLUE);
+  m34 = new Clip(new Movie(this, "mem/b_05.mp4"), ClipType.BLUE);
+  m35 = new Clip(new Movie(this, "mem/b_06.mp4"), ClipType.BLUE);
+  m36 = new Clip(new Movie(this, "mem/b_07.mp4"), ClipType.BLUE);
+  m37 = new Clip(new Movie(this, "mem/b_08.mp4"), ClipType.BLUE);
+  m38 = new Clip(new Movie(this, "mem/b_09.mp4"), ClipType.BLUE);
+  m39 = new Clip(new Movie(this, "mem/b_10.mp4"), ClipType.BLUE);
+  m40 = new Clip(new Movie(this, "mem/b_11.mp4"), ClipType.BLUE);
+  m41 = new Clip(new Movie(this, "mem/b_12.mp4"), ClipType.BLUE);
+  m42 = new Clip(new Movie(this, "mem/b_13.mp4"), ClipType.BLUE);
+  m43 = new Clip(new Movie(this, "mem/b_14.mp4"), ClipType.BLUE);
+  m44 = new Clip(new Movie(this, "mem/b_15.mp4"), ClipType.BLUE);
+  m45 = new Clip(new Movie(this, "mem/b_16.mp4"), ClipType.BLUE);
+  m46 = new Clip(new Movie(this, "mem/b_17.mp4"), ClipType.BLUE);
 }
 
 void draw() {
@@ -249,7 +284,12 @@ void renderWaiting() {
   textFont(font, 18);
   stroke(0);
   fill(0);
-  text("WAITING FOR INPUT", 100, 100);
+  text("MEMORY MONTAGE MACHINE PROUDLY PRESENTS", 100, 100);
+  text("An interactive film by Jukka Eerikäinen, Anna Knappe, Jutta Suksi & Xinran Wang", 100, 200);
+  text("BLIND DATE", 100, 300);
+  text("Primary cut: press 1", 100, 400);
+  text("Inserted " + memories.size() + " memories out of 9.", 100, 500);
+  text("Waiting for input...", 100, 600);
   if (memories.size() == 9) {
     buildTimeline();
     state = State.READY;
@@ -261,7 +301,11 @@ void renderReady() {
   textFont(font, 18);
   stroke(0);
   fill(0);
-  text("READY, PRESS P TO PLAY", 100, 100);
+  text("MEMORY MONTAGE MACHINE PROUDLY PRESENTS", 100, 100);
+  text("An interactive film by Jukka Eerikäinen, Anna Knappe, Jutta Suksi & Xinran Wang", 100, 200);
+  text("BLIND DATE", 100, 300);
+  text("Primary cut: press 1", 100, 400);
+  text("TIMELINE BUILT, PRESS P TO PLAY", 100, 500);
 }
 
 void renderFirstVideo() {
@@ -308,11 +352,31 @@ void buildTimeline() {
       timeline.add(memories.get(i));
     }
   }
+  //TODO fix building different endings!
   //build ending
-  for (int j = 0; j < ending_a.size(); j++) {
-    timeline.add(ending_a.get(j));
-    if (j < ending_a.size()-1) {
-      timeline.add(memories.get(clips.size() + j));
+  if (memories.get(memories.size()-2).getClipType() == ClipType.YELLOW && memories.get(memories.size()-1).getClipType() == ClipType.YELLOW) {
+    //yellow-yellow
+    for (int j = 0; j < ending_a.size(); j++) {
+      timeline.add(ending_a.get(j));
+      if (j < ending_a.size()-1) {
+        timeline.add(memories.get(clips.size() + j));
+      }
+    }
+  } else if (memories.get(memories.size()-2).getClipType() == ClipType.BLUE && memories.get(memories.size()-1).getClipType() == ClipType.BLUE) {
+    //blue-blue
+    for (int j = 0; j < ending_c.size(); j++) {
+      timeline.add(ending_c.get(j));
+      if (j < ending_c.size()-1) {
+        timeline.add(memories.get(clips.size() + j));
+      }
+    }
+  } else {
+    //blue-yellow
+    for (int j = 0; j < ending_b.size(); j++) {
+      timeline.add(ending_b.get(j));
+      if (j < ending_b.size()-1) {
+        timeline.add(memories.get(clips.size() + j));
+      }
     }
   }
   println("Timeline built!");
