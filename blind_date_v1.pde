@@ -348,9 +348,7 @@ void buildTimeline() {
   //build timeline until ending
   for (int i = 0; i < clips.size(); i++) {
     timeline.add(clips.get(i));
-    if (i < clips.size()-1) {
-      timeline.add(memories.get(i));
-    }
+    timeline.add(memories.get(i));
   }
   //TODO fix building different endings!
   //build ending
@@ -484,8 +482,7 @@ void addTuioObject(TuioObject tobj) {
       case 23:
         memories.add(m23);
         break;
-        //BLUE
-        
+        //BLUE  
       case 51:
         memories.add(m24);
         break;
