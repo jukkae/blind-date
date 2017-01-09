@@ -220,7 +220,7 @@ void draw() {
 
   // START TUIO
   textFont(font, 18*scale_factor);
-  float obj_size = object_size*scale_factor; 
+  /*float obj_size = object_size*scale_factor; 
   float cur_size = cursor_size*scale_factor; 
 
   ArrayList<TuioObject> tuioObjectList = tuioClient.getTuioObjectList();
@@ -271,7 +271,7 @@ void draw() {
     popMatrix();
     fill(255);
     text(""+tblb.getBlobID(), tblb.getScreenX(width), tblb.getScreenX(width));
-  }
+  }*/
   // END TUIO
 }
 
@@ -281,7 +281,7 @@ void movieEvent(Movie m) {
 
 void renderWaiting() {
   background(255);
-  textFont(font, 18);
+  textFont(font, 32);
   stroke(0);
   fill(0);
   text("MEMORY MONTAGE MACHINE PROUDLY PRESENTS", 100, 100);
@@ -290,7 +290,7 @@ void renderWaiting() {
   text("Primary cut: press 1", 100, 400);
   text("Inserted " + memories.size() + " memories out of 9.", 100, 500);
   text("Waiting for input...", 100, 600);
-  if (memories.size() == 9) {
+  if (memories.size() >= 9) {
     buildTimeline();
     state = State.READY;
   }
@@ -298,7 +298,7 @@ void renderWaiting() {
 
 void renderReady() {
   background(255);
-  textFont(font, 18);
+  textFont(font, 32);
   stroke(0);
   fill(0);
   text("MEMORY MONTAGE MACHINE PROUDLY PRESENTS", 100, 100);
@@ -350,8 +350,7 @@ void buildTimeline() {
     timeline.add(clips.get(i));
     timeline.add(memories.get(i));
   }
-  //TODO fix building different endings!
-  //build ending
+  //build endings
   if (memories.get(memories.size()-2).getClipType() == ClipType.YELLOW && memories.get(memories.size()-1).getClipType() == ClipType.YELLOW) {
     //yellow-yellow
     for (int j = 0; j < ending_a.size(); j++) {
