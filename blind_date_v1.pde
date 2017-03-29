@@ -98,7 +98,8 @@ ArrayList<Clip> timeline;
 int index = 0;
 
 void setup() {
-  size(1280, 720);
+  fullScreen(1);
+  //size(1280, 720);
 
   font = createFont("Arial", 18);
   scale_factor = height/table_size;
@@ -309,6 +310,7 @@ void renderReady() {
 }
 
 void renderFirstVideo() {
+  background(0);
   if (act.time() >= act.duration()-0.1 && act.time() != -1.0E-9) { // TODO shitty magic numbers abound yeah yeah
     act.stop();
     index = 0;
@@ -318,10 +320,13 @@ void renderFirstVideo() {
     state = State.WAITING_FOR_INPUT;
     return;
   }
-  image(act.getMovie(), 0, 0);
+  int x = (width/2) - (1080/2);
+  int y = (height/2) - (720/2);
+  image(act.getMovie(), x, y);
 }
 
 void renderVideo() {
+  background(0);
   if (act.time() >= act.duration()-0.1 && act.time() != -1.0E-9) { // TODO shitty magic numbers abound yeah yeah
     if (index < timeline.size()-1) {
       act.stop();
@@ -340,7 +345,9 @@ void renderVideo() {
       return;
     }
   }
-  image(act.getMovie(), 0, 0);
+  int x = (width/2) - (1080/2);
+  int y = (height/2) - (720/2);
+  image(act.getMovie(), x, y);
 }
 
 void buildTimeline() {
